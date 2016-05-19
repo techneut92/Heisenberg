@@ -5,6 +5,10 @@
 #include <QtSerialPort/QSerialPort>
 #include <QByteArray>
 #include <QDebug>
+#include "heisenberg.conf"
+#include <QProcess>
+#include <QThread>
+#include <QTextStream>
 
 class HBSerialBluetooth : public QObject
 {
@@ -12,17 +16,21 @@ class HBSerialBluetooth : public QObject
 public:
     explicit HBSerialBluetooth();
     ~HBSerialBluetooth();
+    //void connectBluetooth();
 
 private:
     QSerialPort *Serial;
+    QProcess Rfcomm;
     QByteArray Memory;
     void processMemory();
 
 signals:
-    void Walk(char direction, int speed);
+    void Walk(quint8 command);
 
 public slots:
     void ProcessSerialData();
+    //void killBluetooth();
+    void ClosePorts();
 
 };
 
