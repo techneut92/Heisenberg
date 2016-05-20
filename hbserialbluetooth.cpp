@@ -3,8 +3,6 @@
 HBSerialBluetooth::HBSerialBluetooth()
 {
     Serial = new QSerialPort();
-    //this->connectBluetooth();
-    //QThread::sleep(10);
     connect(Serial, SIGNAL(readyRead()), this, SLOT(ProcessSerialData()));
     Serial->setPortName(SERIALPORT);
     //Serial->setDataBits(QSerialPort::Data8);
@@ -39,8 +37,10 @@ void HBSerialBluetooth::ProcessSerialData(){
     QByteArray data = Serial->readAll();
     int lastIndex = data.length()-1;
     QByteRef lastData = data[lastIndex];
-    //qDebug() << lastData;
+    //qDebug() << data;
     switch(lastData){
+    case 0x00:
+        break;
     case 0x01:
         emit this->SendCommand(1); // forward
         break;
@@ -58,7 +58,8 @@ void HBSerialBluetooth::ProcessSerialData(){
         break;
     default:
         data = data.toHex();
-        qDebug().nospace().noquote() << "Unsupported data type from bluetooth: 0x" << data[lastIndex-1] << data[lastIndex];
+        if (data.length() > 1)
+            qDebug().nospace().noquote() << "Unsupported data type from bluetooth: 0x" << data[lastIndex-1] << data[lastIndex];
         break;
     }
 }

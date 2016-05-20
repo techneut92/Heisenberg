@@ -31,7 +31,7 @@ void Spider::Walk(quint8 command){
             break;
         }
         qDebug().noquote().nospace() << "Walk invoked - " << debug;
-        QThread::sleep(2);
+        QThread::sleep(1);
         this->IsWalking = false;
     }
 }
@@ -61,11 +61,11 @@ void Spider::run(){
             break;
         case 0:
             if (!this->StandbyMsgSend) {
-                qDebug() << "Spider is waiting for your orders, Sir";
+                qDebug() << "Heisenberg is waiting for your orders, Sir.";
                 this->StandbyMsgSend = true;
             }
         }
         this->Command = 0;
-        QThread::sleep(1);
+        QThread::usleep(200);
     }
 }

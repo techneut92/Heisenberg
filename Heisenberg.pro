@@ -13,11 +13,13 @@ TEMPLATE = app
 SOURCES += main.cpp \
     hbwebserver.cpp \
     hbserialbluetooth.cpp \
-    spider.cpp
+    spider.cpp \
+    hbtcpserver.cpp
 
 HEADERS += \
     hbwebserver.h \
     hbserialbluetooth.h \
     heisenberg.conf \
-    spider.h
+    spider.h \
+    hbtcpserver.h
 
