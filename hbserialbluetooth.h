@@ -21,11 +21,9 @@ public:
 private:
     QSerialPort *Serial;
     QProcess Rfcomm;
-    QByteArray Memory;
-    void processMemory();
 
 signals:
-    void Walk(quint8 command);
+    void SendCommand(quint16 command);
 
 public slots:
     void ProcessSerialData();
