@@ -21,9 +21,10 @@ private:
     bool StandbyMsgSend;
 
     void run();
-    void Walk(quint8 command);
 
 signals:
+    void Walk(quint8 command);
+    void Stand();
 
 public slots:
     void SetCommand(quint16 command);

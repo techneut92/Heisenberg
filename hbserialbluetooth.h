@@ -15,10 +15,10 @@ class HBSerialBluetooth : public QObject
 public:
     explicit HBSerialBluetooth();
     ~HBSerialBluetooth();
+    void OpenPorts();
 
 private:
     QSerialPort *Serial;
-    //QProcess Rfcomm;
 
 signals:
     void SendCommand(quint16 command);

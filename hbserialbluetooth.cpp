@@ -10,27 +10,7 @@ HBSerialBluetooth::HBSerialBluetooth()
     //Serial->setStopBits(QSerialPort::OneStop);
     //Serial->setFlowControl(QSerialPort::NoFlowControl);
     qDebug() << "Serial port set to: " << SERIALPORT << "baudrate: " << Serial->baudRate();
-    if (Serial->open(QIODevice::ReadWrite)) {
-        qDebug() << "Connected to" << Serial->portName();
-        Serial->clear();
-    } else {
-        QString error = Serial->errorString();
-        while(error == "No such file or directory") {
-            Serial->open(QIODevice::ReadWrite);
-            QThread::sleep(10);
-            qDebug() << "Attempting serial bluetooth connection.";
-            error = Serial->errorString();
-        }while(error == "Permission error while locking the device"){
-            qCritical() << "Permission error while locking the device: Are you running program as root?";
-            qCritical() << "Reattempting connection every 10 seconds....";
-            Serial->open(QIODevice::ReadWrite);
-            QThread::sleep(10);
-            error = Serial->errorString();
-        }
-        if (error == "Unknown error") qDebug() << "Bluetooth connected to" << Serial->portName();
-
-        else qDebug() << error;
-    }
+    this->OpenPorts();
 }
 
 void HBSerialBluetooth::ProcessSerialData(){
@@ -58,17 +38,41 @@ void HBSerialBluetooth::ProcessSerialData(){
         break;
     default:
         data = data.toHex();
-        if (data.length() > 1)
-            qDebug().nospace().noquote() << "Unsupported data type from bluetooth: 0x" << data[lastIndex-1] << data[lastIndex];
+        //if (data.length() > 1)
+            //qDebug().nospace().noquote() << "Unsupported data type from bluetooth: 0x" << data[lastIndex-1] << data[lastIndex];
         break;
     }
 }
 
 HBSerialBluetooth::~HBSerialBluetooth(){
-    //this->Rfcomm.kill();
+
 }
 
 
 void HBSerialBluetooth::ClosePorts(){
     this->Serial->close();
+}
+
+void HBSerialBluetooth::OpenPorts(){
+    if (this->Serial->open(QIODevice::ReadWrite)) {
+        qDebug() << "Connected to" << Serial->portName();
+        Serial->clear();
+    } else {
+        QString error = Serial->errorString();
+        while(error == "No such file or directory") {
+            Serial->open(QIODevice::ReadWrite);
+            QThread::sleep(10);
+            qDebug() << "Attempting serial bluetooth connection.";
+            error = Serial->errorString();
+        }while(error == "Permission error while locking the device"){
+            qCritical() << "Permission error while locking the device: Are you running program as root?";
+            qCritical() << "Reattempting connection every 10 seconds....";
+            Serial->open(QIODevice::ReadWrite);
+            QThread::sleep(10);
+            error = Serial->errorString();
+        }
+        if (error == "Unknown error") qDebug() << "Bluetooth connected to" << Serial->portName();
+
+        else qDebug() << error;
+    }
 }

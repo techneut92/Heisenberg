@@ -2,6 +2,7 @@ QT += core
 QT += network
 QT += websockets
 QT += serialport
+QT += concurrent
 QT -= gui
 
 TARGET = Heisenberg
@@ -14,12 +15,18 @@ SOURCES += main.cpp \
     hbwebserver.cpp \
     hbserialbluetooth.cpp \
     spider.cpp \
-    hbtcpserver.cpp
+    hbtcpserver.cpp \
+    hbtcpsocket.cpp \
+    controller.cpp \
+    hbcommandcenter.cpp
 
 HEADERS += \
     hbwebserver.h \
     hbserialbluetooth.h \
     heisenberg.conf \
     spider.h \
-    hbtcpserver.h
+    hbtcpsocket.h \
+    hbtcpserver.h \
+    controller.h \
+    hbcommandcenter.h
 
